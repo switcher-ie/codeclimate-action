@@ -52,6 +52,11 @@ function prepareEnv() {
     env.GIT_COMMIT_SHA = context.payload.pull_request?.['head']?.['sha']; // Report correct SHA for the head branch (See https://github.com/paambaati/codeclimate-action/issues/140)
   }
 
+  if (process.env.GITHUB_EVENT_NAME === 'pull_request_target') {
+    env.GIT_BRANCH = context.payload.pull_request?.head.ref.replace(/^refs\/heads\//, '')
+    env.GIT_COMMIT_SHA = context.payload.pull_request?.head.sha
+  }
+
   return env;
 }
 
